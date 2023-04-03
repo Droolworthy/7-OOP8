@@ -187,15 +187,15 @@ namespace OOP8
             base.TakeDamage(damage);
         }
 
-        //public override int DealDamage()
-        //{
+        public override int DealDamage()
+        {
             
-        //}
+        }
 
-        //private int DoubleAttack()
-        //{
+        private int DoubleAttack()
+        {
             
-        //}
+        }
 
         private bool TryDoubleAttack()
         {
@@ -263,22 +263,22 @@ namespace OOP8
 
         public int Armor; //защита
 
-        //public override void DealDamage(int damage)
-        //{
+        public override void DealDamage(int damage)
+        {
 
-        //}
+        }
 
-        //public override void TakeDamage(int damage)
-        //{
-        //    base.TakeDamage(damage);
-        //    Reflection();
-        //}
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            Reflection();
+        }
 
-        //private int Vampirism() //вампиризм отнимает здоровье и прибавляет его себе
-        //{
-        //    //_health += _damage;
-        //    //return _health;
-        //}
+        private int Vampirism() //вампиризм отнимает здоровье и прибавляет его себе
+        {
+            //_health += _damage;
+            //return _health;
+        }
 
         private void Reflection() // отражает урон в противника
         {
@@ -290,16 +290,16 @@ namespace OOP8
     {
         public Karateka(string name, int health, int damage) : base(name, health, damage) { }
 
-        //public override void TakeDamage(int damage)
-        //{
-        //    base.TakeDamage(damage);
-        //    BleedingDamage();
-        //}
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            BleedingDamage();
+        }
 
-        //public override void DealDamage(int damage)
-        //{
+        public override void DealDamage(int damage)
+        {
 
-        //}
+        }
 
         private void BleedingDamage() // шанс на кровотечение, здоровье отнимется
         {
@@ -311,16 +311,16 @@ namespace OOP8
     {
         public TaekwondoPractitioner(string name, int health, int damage) : base(name, health, damage) { }
 
-        //public override void TakeDamage(int damage)
-        //{
-        //    base.TakeDamage(damage);
-        //    Evasion();
-        //}
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            Evasion();
+        }
 
-        //public override void DealDamage(int damage)
-        //{
+        public override void DealDamage(int damage)
+        {
 
-        //}
+        }
 
         private void Evasion() // шанс уклонится и не получить урон
         {
