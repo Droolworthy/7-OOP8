@@ -40,11 +40,11 @@ namespace OOP8
         {
             List<Fighter> fighters = new List<Fighter>();
 
-            fighters.Add(new Wrestler("Хабиб", 100, 15, 100));
-            fighters.Add(new Kickboxer("Жан-Клод Ван Дамм", 100, 15));
-            fighters.Add(new Boxer("Тайсон", 100, 20, 67));
-            fighters.Add(new Karateka("Ип Ман", 100, 10));
-            fighters.Add(new TaekwondoPractitioner("Марк Дакаскос", 100, 20));
+            fighters.Add(new Wrestler("Хабиб", 450, 30, 100));
+            fighters.Add(new Kickboxer("Жан-Клод Ван Дамм", 400, 20));
+            fighters.Add(new Boxer("Тайсон", 365, 35, 75));
+            fighters.Add(new Karateka("Ип Ман", 380, 35));
+            fighters.Add(new TaekwondoPractitioner("Марк Дакаскос", 360, 45));
 
             Console.WriteLine();
 
@@ -210,7 +210,7 @@ namespace OOP8
         {
             Random random = new Random();
 
-            int activationDoubleAttack = 40;
+            int activationDoubleAttack = 30;
             int minimumActivationDoubleAttack = 1;
             int maximumActivationDoubleAttack = 100;
 
@@ -265,8 +265,8 @@ namespace OOP8
 
         private int UseDoubleDamage()
         {
-            int doubleDamage = 30;
-            int damage = 15;
+            int doubleDamage = 40;
+            int damage = 20;
 
             if (_endDoubleDamageCountdown <= _beginningDoubleDamageCountdown)
             {
@@ -366,10 +366,10 @@ namespace OOP8
         {
             Random random = new Random();
 
-            int activationBleedingDamage = 45;
+            int activationBleedingDamage = 35;
             int minimumBleedingDamage = 1;
             int maximumBleedingDamage = 100;
-            int bleedingDamage = random.Next(10, 25);
+            int bleedingDamage = random.Next(10, 30);
 
             if (activationBleedingDamage > random.Next(minimumBleedingDamage, maximumBleedingDamage))
             {
@@ -427,7 +427,7 @@ namespace OOP8
         {
             Random random = new Random();
 
-            int activationReflectionDamage = 50;
+            int activationReflectionDamage = 40;
             int minimumValueReflectionDamage = 1;
             int maximumValueReflectionDamage = 100;
 
