@@ -48,7 +48,7 @@ namespace OOP8
 
             Console.WriteLine();
 
-            ShowListFighters(fighters);
+            ShowListWarriors(fighters);
 
             Console.Write("\nВыберите бойца c правой стороны - ");
             string userInputRightFighter = Console.ReadLine();
@@ -68,7 +68,7 @@ namespace OOP8
                         Console.WriteLine($"\nВы выбрали первого бойца - {rightFighter.NameWarrior}.");
                         Console.Clear();
 
-                        ShowListFighters(fighters);
+                        ShowListWarriors(fighters);
 
                         Console.Write("\nВыберите бойца с левой стороны - ");
                         string userInputLeftFighter = Console.ReadLine();
@@ -93,8 +93,8 @@ namespace OOP8
                                     {
                                         rightFighter.TakeDamage(leftFighter.DealDamage(rightFighter));
                                         leftFighter.TakeDamage(rightFighter.DealDamage(leftFighter));
-                                        rightFighter.ShowInfoFighter();
-                                        leftFighter.ShowInfoFighter();
+                                        rightFighter.ShowInfoWarriors();
+                                        leftFighter.ShowInfoWarriors();
 
                                         Console.WriteLine("---------------------------------------------------");
                                         Console.ReadKey();
@@ -130,12 +130,12 @@ namespace OOP8
             }
         }
 
-        private void ShowListFighters(List<Fighter> fighters)
+        private void ShowListWarriors(List<Fighter> fighters)
         {
             for (int i = 0; i < fighters.Count; i++)
             {
                 Console.Write(i + ". ");
-                fighters[i].ShowInfoFighter();
+                fighters[i].ShowInfoWarriors();
             }
         }
     }
@@ -169,6 +169,11 @@ namespace OOP8
             }
         }
 
+        public virtual void ShowInfoWarriors()
+        {
+            Console.WriteLine("Имя - " + _nameWarrior + ", Здоровье - " + _healthWarrior + " хп; " + "Урон - " + _damageWarrior + ";");
+        }
+
         public virtual void TakeDamage(int damage)
         {
             _healthWarrior -= damage;
@@ -177,28 +182,23 @@ namespace OOP8
         public virtual int DealDamage(Fighter fighter)
         {
             return _damageWarrior;
-        }
-
-        public virtual void ShowInfoFighter()
-        {
-            Console.WriteLine("Имя - " + _nameWarrior + ", Здоровье - " + _healthWarrior + " хп; " + "Урон - " + _damageWarrior + ";");
-        }
+        }       
     }
 
     class Wrestler : Fighter
     {
-        private int _wrestlerEndurance = 100;
+        private int _samboWarriorEndurance = 100;
         private int _usingSkillDoubleAttack = 25;
 
-        public Wrestler(string name, int health, int damage, int endurance) : base(name, health, damage)
+        public Wrestler(string nameCombatant, int healthCombatant, int damageCombatant, int samboCombatantEndurance) : base(nameCombatant, healthCombatant, damageCombatant)
         {
-            _wrestlerEndurance = endurance;
+            _samboWarriorEndurance = samboCombatantEndurance;
         }
-
-        public override void ShowInfoFighter()
+         
+        public override void ShowInfoWarriors()
         {
-            base.ShowInfoFighter();
-            Console.WriteLine("Выносливость - " + _wrestlerEndurance);
+            base.ShowInfoWarriors();
+            Console.WriteLine("Выносливость - " + _samboWarriorEndurance);
         }
 
         public override int DealDamage(Fighter fighter)
@@ -216,7 +216,7 @@ namespace OOP8
 
             if (activationDoubleAttack > random.Next(minimumActivationDoubleAttack, maximumActivationDoubleAttack))
             {
-                _wrestlerEndurance -= _usingSkillDoubleAttack;
+                _samboWarriorEndurance -= _usingSkillDoubleAttack;
 
                 if (TryDoubleAttack())
                 {
@@ -226,7 +226,7 @@ namespace OOP8
                 }
                 else
                 {
-                    _wrestlerEndurance = 0;
+                    _samboWarriorEndurance = 0;
                     return _damageWarrior;
                 }
             }
@@ -238,14 +238,14 @@ namespace OOP8
 
         private bool TryDoubleAttack()
         {
-            if (_wrestlerEndurance >= 0)
+            if (_samboWarriorEndurance >= 0)
             {
                 Console.WriteLine("Боец " + _nameWarrior + " применяет способность двойная атака, используя " + _usingSkillDoubleAttack + "% выносливости.");
                 return true;
             }
             else
             {
-                _wrestlerEndurance = 0;
+                _samboWarriorEndurance = 0;
                 return false;
             }
         }
@@ -256,7 +256,7 @@ namespace OOP8
         private int _beginningDoubleDamageCountdown = 0; 
         private int _endDoubleDamageCountdown = 3;
 
-        public Kickboxer(string name, int health, int damage) : base(name, health, damage) { }
+        public Kickboxer(string nameCombatant, int healthCombatant, int damageCombatant) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
         public override int DealDamage(Fighter fighter)
         {
@@ -289,17 +289,17 @@ namespace OOP8
 
     class Boxer : Fighter
     {
-        private int _armorProfessionalBoxer = 100;
+        private int _armorProfessionalPuncher  = 100;
 
-        public Boxer(string name, int health, int damage, int armor) : base(name, health, damage)
+        public Boxer(string nameCombatant, int healthCombatant, int damageCombatant, int armorPuncher) : base(nameCombatant, healthCombatant, damageCombatant)
         {
-            _armorProfessionalBoxer = armor;
+            _armorProfessionalPuncher = armorPuncher;
         }
 
-        public override void ShowInfoFighter()
+        public override void ShowInfoWarriors()
         {
-            base.ShowInfoFighter();
-            Console.WriteLine("Защита - " + _armorProfessionalBoxer);
+            base.ShowInfoWarriors();
+            Console.WriteLine("Защита - " + _armorProfessionalPuncher);
         }
 
         public override void TakeDamage(int damage)
@@ -320,13 +320,13 @@ namespace OOP8
             {
                 int blockedDamage = damage / halfBlockedDamage;
                 Console.WriteLine(_nameWarrior + " блокирует - " + blockedDamage + " урона.");
-                _armorProfessionalBoxer -= blockedDamage;
+                _armorProfessionalPuncher  -= blockedDamage;
 
                 TryTakeDefenseDamage();
             }
             else
             {
-                _armorProfessionalBoxer -= damage;
+                _armorProfessionalPuncher  -= damage;
 
                 TryTakeDefenseDamage();
             }
@@ -334,14 +334,14 @@ namespace OOP8
 
         private bool TryTakeDefenseDamage()
         {
-            if (_armorProfessionalBoxer >= 0)
+            if (_armorProfessionalPuncher  >= 0)
             {
                 return true;
             }
             else
             {
-                _healthWarrior += _armorProfessionalBoxer;
-                _armorProfessionalBoxer = 0;
+                _healthWarrior += _armorProfessionalPuncher ;
+                _armorProfessionalPuncher  = 0;
             }
 
             return false;
@@ -350,7 +350,7 @@ namespace OOP8
 
     class Karateka : Fighter
     {
-        public Karateka(string name, int health, int damage) : base(name, health, damage) { }
+        public Karateka(string nameCombatant, int healthCombatant, int damageCombatant) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
         public override int DealDamage(Fighter fighter)
         {
@@ -386,7 +386,7 @@ namespace OOP8
 
     class TaekwondoPractitioner : Fighter
     {
-        public TaekwondoPractitioner(string name, int health, int damage) : base(name, health, damage) { }
+        public TaekwondoPractitioner(string nameCombatant, int healthCombatant, int damageCombatant) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
         public override int DealDamage(Fighter fighter)
         {
