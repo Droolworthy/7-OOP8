@@ -20,7 +20,7 @@ namespace OOP8
 
                 if (CommandСhooseFighters == userInput)
                 {
-                    arena.Fight();
+                    arena.BattleFighters();
                 }
                 else if (userInput == CommandExit)
                 {
@@ -36,7 +36,7 @@ namespace OOP8
 
     class Arena
     {
-        public void Fight()
+        public void BattleFighters()
         {
             List<Fighter> fighters = new List<Fighter>();
 
@@ -340,7 +340,7 @@ namespace OOP8
             }
             else
             {
-                _healthWarrior += _armorProfessionalPuncher ;
+                _healthWarrior += _armorProfessionalPuncher;
                 _armorProfessionalPuncher  = 0;
             }
 
