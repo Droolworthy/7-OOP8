@@ -20,7 +20,7 @@ namespace OOP8
 
                 if (CommandСhooseFighters == userInput)
                 {
-                    arena.BattleFighters();
+                    arena.Work();
                 }
                 else if (userInput == CommandExit)
                 {
@@ -36,15 +36,16 @@ namespace OOP8
 
     class Arena
     {
-        public void BattleFighters()
+        public void Work()
         {
-            List<Fighter> fighters = new List<Fighter>();
-
-            fighters.Add(new Wrestler("Хабиб", 400, 30, 100));
-            fighters.Add(new Kickboxer("Жан-Клод Ван Дамм", 400, 5));
-            fighters.Add(new Boxer("Тайсон", 400, 30, 100));
-            fighters.Add(new Karateka("Ип Ман", 400, 20));
-            fighters.Add(new TaekwondoPractitioner("Марк Дакаскос", 400, 20));
+            List<Fighter> fighters = new List<Fighter>
+            {
+                new Wrestler(nameof(Wrestler), 400, 30, 100),
+                new Kickboxer(nameof(Kickboxer), 400, 5),
+                new Boxer(nameof(Boxer), 400, 30, 100),
+                new Karateka(nameof(Karateka), 400, 20),
+                new TaekwondoPractitioner(nameof(TaekwondoPractitioner), 400, 20)
+            };
 
             Console.WriteLine();
 
@@ -180,7 +181,7 @@ namespace OOP8
 
         public virtual void ShowInfoWarriors()
         {
-            Console.WriteLine("Имя - " + Name + ", Здоровье - " + Health + " хп; " + "Урон - " + Damage + ";");
+            Console.WriteLine("Name - " + Name + ", Health - " + Health + " хп; " + "Damage - " + Damage + ";");
         }
 
         public virtual void TakeDamage(int damage)
@@ -201,6 +202,7 @@ namespace OOP8
         public Boxer(string nameCombatant, int healthCombatant, int damageCombatant, int armorPuncher) : base(nameCombatant, healthCombatant, damageCombatant)
         {
             _armorProfessionalPuncher = armorPuncher;
+            Name = nameof(Boxer);
         }
 
         public override void ShowInfoWarriors()
@@ -233,16 +235,19 @@ namespace OOP8
 
             if (activatingDamageLock > random.Next(minimumActivatingDamageLock, maximumActivatingDamageLock))
             {              
-                Console.WriteLine(fighter.DamageWarrior);
                 int blockedDamage = fighter.DamageWarrior / halfBlockedDamage;
                 Console.WriteLine(Name + " блокирует - " + blockedDamage + " урона.");
                 _armorProfessionalPuncher -= blockedDamage;
+
+                base.TakeDamage(blockedDamage);
 
                 TryTakeDefenseDamage();
             }
             else
             {
                 _armorProfessionalPuncher -= fighter.DamageWarrior;
+
+                base.TakeDamage(fighter.DamageWarrior);
 
                 TryTakeDefenseDamage();
             }
