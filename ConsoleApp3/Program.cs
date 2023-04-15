@@ -40,11 +40,11 @@ namespace OOP8
         {
             List<Fighter> fighters = new List<Fighter>();
 
-            fighters.Add(new Wrestler("Хабиб", 380, 25, 100));
-            fighters.Add(new Kickboxer("Жан-Клод Ван Дамм", 340, 20));
-            fighters.Add(new Boxer("Тайсон", 270, 30, 100));
+            fighters.Add(new Wrestler("Хабиб", 400, 30, 100));
+            fighters.Add(new Kickboxer("Жан-Клод Ван Дамм", 400, 5));
+            fighters.Add(new Boxer("Тайсон", 400, 30, 100));
             fighters.Add(new Karateka("Ип Ман", 400, 20));
-            fighters.Add(new TaekwondoPractitioner("Марк Дакаскос", 333, 30));
+            fighters.Add(new TaekwondoPractitioner("Марк Дакаскос", 400, 20));
 
             Console.WriteLine();
 
@@ -100,15 +100,15 @@ namespace OOP8
             }
         }
 
-        private void FightFighters(Fighter rightFighter, Fighter leftFighter) 
+        private void FightFighters(Fighter rightFighter, Fighter leftFighter)
         {
             Console.WriteLine("\nБОЙ НАЧИНАЕТСЯ!");
             Console.WriteLine();
 
             while (rightFighter.HealthWarrior >= 0 && leftFighter.HealthWarrior >= 0)
             {
-                rightFighter.DealDamage(rightFighter, leftFighter);
-                leftFighter.DealDamage(leftFighter, rightFighter);
+                rightFighter.Attack(leftFighter);
+                leftFighter.Attack(rightFighter);
                 rightFighter.ShowInfoWarriors();
                 leftFighter.ShowInfoWarriors();
 
@@ -188,9 +188,9 @@ namespace OOP8
             Health -= damage;
         }
 
-        public virtual void DealDamage(Fighter rightFighter, Fighter leftFighter)
+        public virtual void Attack(Fighter fighter)
         {
-            rightFighter.TakeDamage(leftFighter.DamageWarrior);
+            fighter.TakeDamage(Damage);
         }
     }
 
@@ -209,12 +209,20 @@ namespace OOP8
             Console.WriteLine("Защита - " + _armorProfessionalPuncher);
         }
 
-        public override void DealDamage(Fighter rightFighter, Fighter leftFighter)
+        public override void TakeDamage(int damage)
         {
-            BlockDamage(leftFighter);
+            damage = 0;
+            base.TakeDamage(damage);           
         }
 
-        private void BlockDamage(Fighter leftFighter)
+        public override void Attack(Fighter fighter)
+        {
+            fighter.TakeDamage(Damage);
+
+            BlockDamage(fighter);
+        }
+
+        private void BlockDamage(Fighter fighter)
         {
             Random random = new Random();
 
@@ -224,8 +232,9 @@ namespace OOP8
             int maximumActivatingDamageLock = 100;
 
             if (activatingDamageLock > random.Next(minimumActivatingDamageLock, maximumActivatingDamageLock))
-            {
-                int blockedDamage = leftFighter.DamageWarrior / halfBlockedDamage;
+            {              
+                Console.WriteLine(fighter.DamageWarrior);
+                int blockedDamage = fighter.DamageWarrior / halfBlockedDamage;
                 Console.WriteLine(Name + " блокирует - " + blockedDamage + " урона.");
                 _armorProfessionalPuncher -= blockedDamage;
 
@@ -233,7 +242,7 @@ namespace OOP8
             }
             else
             {
-                _armorProfessionalPuncher -= leftFighter.DamageWarrior;
+                _armorProfessionalPuncher -= fighter.DamageWarrior;
 
                 TryTakeDefenseDamage();
             }
@@ -271,14 +280,14 @@ namespace OOP8
             Console.WriteLine("Выносливость - " + _samboWarriorEndurance);
         }
 
-        public override void DealDamage(Fighter rightFighter, Fighter leftFighter)
+        public override void Attack(Fighter fighter)
         {
-            rightFighter.TakeDamage(leftFighter.DamageWarrior);
+            fighter.TakeDamage(Damage);
 
-            UseDoubleAttack(rightFighter, leftFighter);
+            UseDoubleAttack(fighter);
         }
 
-        private void UseDoubleAttack(Fighter rightFighter, Fighter leftFighter)
+        private void UseDoubleAttack(Fighter fighter)
         {
             Random random = new Random();
 
@@ -292,7 +301,7 @@ namespace OOP8
 
                 if (TryDoubleAttack())
                 {
-                    leftFighter.TakeDamage(rightFighter.DamageWarrior);
+                    fighter.TakeDamage(Damage);
                 }
                 else
                 {
@@ -323,14 +332,14 @@ namespace OOP8
 
         public Kickboxer(string nameCombatant, int healthCombatant, int damageCombatant) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
-        public override void DealDamage(Fighter rightFighter, Fighter leftFighter)
+        public override void Attack(Fighter fighter)
         {
-            rightFighter.TakeDamage(leftFighter.DamageWarrior);
+            fighter.TakeDamage(Damage);
 
-            UseDoubleDamage(rightFighter, leftFighter);
+            UseDoubleDamage(fighter);
         }
 
-        private void UseDoubleDamage(Fighter rightFighter, Fighter leftFighter)
+        private void UseDoubleDamage(Fighter fighter)
         {
             if (_endDoubleDamageCountdown <= _beginningDoubleDamageCountdown)
             {
@@ -341,7 +350,7 @@ namespace OOP8
                     _endDoubleDamageCountdown += _endDoubleDamageCountdown;
                 }
 
-                leftFighter.TakeDamage(rightFighter.DamageWarrior);
+                fighter.TakeDamage(Damage);
             }
             else
             {
@@ -354,14 +363,14 @@ namespace OOP8
     {
         public Karateka(string nameCombatant, int healthCombatant, int damageCombatant) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
-        public override void DealDamage(Fighter rightFighter, Fighter leftFighter)
+        public override void Attack(Fighter fighter)
         {
-            rightFighter.TakeDamage(leftFighter.DamageWarrior);
+            fighter.TakeDamage(Damage);
 
-            UseBleedingDamage(leftFighter);
+            UseBleedingDamage(fighter);
         }
 
-        private void UseBleedingDamage(Fighter leftFighter)
+        private void UseBleedingDamage(Fighter fighter)
         {
             Random random = new Random();
 
@@ -373,7 +382,7 @@ namespace OOP8
             if (activationBleedingDamage > random.Next(minimumBleedingDamage, maximumBleedingDamage))
             {
                 Console.WriteLine(Name + ", выполняет режущий удар с логтя, у противника кровотечение на - " + bleedingDamage + " урона.");
-                leftFighter.TakeDamage(bleedingDamage);
+                fighter.TakeDamage(bleedingDamage);
             }
         }
     }
@@ -382,11 +391,11 @@ namespace OOP8
     {
         public TaekwondoPractitioner(string nameCombatant, int healthCombatant, int damageCombatant) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
-        public override void DealDamage(Fighter rightFighter, Fighter leftFighter)
+        public override void Attack(Fighter fighter)
         {
-            rightFighter.TakeDamage(leftFighter.DamageWarrior);
+            fighter.TakeDamage(Damage);
 
-            UseReflectionDamage(leftFighter);
+            UseReflectionDamage(fighter);
         }
 
         public override void TakeDamage(int damage)
@@ -419,7 +428,7 @@ namespace OOP8
             }
         }
 
-        private void UseReflectionDamage(Fighter leftFighter)
+        private void UseReflectionDamage(Fighter fighter)
         {
             Random random = new Random();
 
@@ -429,8 +438,8 @@ namespace OOP8
 
             if (activationReflectionDamage > random.Next(minimumValueReflectionDamage, maximumValueReflectionDamage))
             {
-                Console.WriteLine(Name + " отражает атаку противника на " + leftFighter.DamageWarrior + " урона.");
-                leftFighter.TakeDamage(leftFighter.DamageWarrior);
+                Console.WriteLine(Name + " отражает атаку противника на " + fighter.DamageWarrior + " урона.");
+                fighter.TakeDamage(fighter.DamageWarrior);
             }
         }
 
