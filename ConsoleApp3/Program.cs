@@ -201,14 +201,14 @@ namespace OOP8
             base.ShowInfoWarriors();
         }
 
-        public override void Attack(Fighter fighter)
+        public override void Attack(Fighter fighter) 
         {
             fighter.TakeDamage(Damage);
 
-            Vampirism(fighter);
+            RestoreHealth(fighter);
         }
 
-        private void Vampirism(Fighter fighter)
+        private void RestoreHealth(Fighter fighter)
         {
             Random random = new Random();
 
