@@ -196,11 +196,6 @@ namespace OOP8
     {
         public Boxer(string nameCombatant, int healthCombatant, int damageCombatant, int armorPuncher) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
-        public override void ShowInfoWarriors()
-        {
-            base.ShowInfoWarriors();
-        }
-
         public override void Attack(Fighter fighter) 
         {
             fighter.TakeDamage(Damage);
