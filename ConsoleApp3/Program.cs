@@ -40,11 +40,11 @@ namespace OOP8
         {
             List<Fighter> fighters = new List<Fighter>
             {
-                new Wrestler(nameof(Wrestler), 400, 30, 100),
-                new Kickboxer(nameof(Kickboxer), 400, 5),
-                new Boxer(nameof(Boxer), 400, 30, 100),
-                new Karateka(nameof(Karateka), 400, 20),
-                new TaekwondoPractitioner(nameof(TaekwondoPractitioner), 400, 20)
+                new Wrestler(nameof(Wrestler), 345, 25, 100),
+                new Kickboxer(nameof(Kickboxer), 320, 20),
+                new Boxer(nameof(Boxer), 333, 30, 100),
+                new Karateka(nameof(Karateka), 250, 22),
+                new TaekwondoPractitioner(nameof(TaekwondoPractitioner), 390, 28)
             };
 
             Console.WriteLine();
@@ -197,75 +197,35 @@ namespace OOP8
 
     class Boxer : Fighter
     {
-        private int _armorProfessionalPuncher = 100;
-
-        public Boxer(string nameCombatant, int healthCombatant, int damageCombatant, int armorPuncher) : base(nameCombatant, healthCombatant, damageCombatant)
-        {
-            _armorProfessionalPuncher = armorPuncher;
-            Name = nameof(Boxer);
-        }
+        public Boxer(string nameCombatant, int healthCombatant, int damageCombatant, int armorPuncher) : base(nameCombatant, healthCombatant, damageCombatant) { }
 
         public override void ShowInfoWarriors()
         {
             base.ShowInfoWarriors();
-            Console.WriteLine("Защита - " + _armorProfessionalPuncher);
-        }
-
-        public override void TakeDamage(int damage)
-        {
-            damage = 0;
-            base.TakeDamage(damage);           
         }
 
         public override void Attack(Fighter fighter)
         {
             fighter.TakeDamage(Damage);
 
-            BlockDamage(fighter);
+            Vampirism(fighter);
         }
 
-        private void BlockDamage(Fighter fighter)
+        private void Vampirism(Fighter fighter)
         {
             Random random = new Random();
 
-            int halfBlockedDamage = 2;
-            int activatingDamageLock = 40;
-            int minimumActivatingDamageLock = 1;
-            int maximumActivatingDamageLock = 100;
+            int halfRegenerationHealth = 2;
+            int activatingRegenerationHealth = 40;
+            int minimumActivatingRegenerationHealth = 1;
+            int maximumActivatingRegenerationHealth = 100;
 
-            if (activatingDamageLock > random.Next(minimumActivatingDamageLock, maximumActivatingDamageLock))
-            {              
-                int blockedDamage = fighter.DamageWarrior / halfBlockedDamage;
-                Console.WriteLine(Name + " блокирует - " + blockedDamage + " урона.");
-                _armorProfessionalPuncher -= blockedDamage;
-
-                base.TakeDamage(blockedDamage);
-
-                TryTakeDefenseDamage();
-            }
-            else
+            if (activatingRegenerationHealth > random.Next(minimumActivatingRegenerationHealth, maximumActivatingRegenerationHealth))
             {
-                _armorProfessionalPuncher -= fighter.DamageWarrior;
-
-                base.TakeDamage(fighter.DamageWarrior);
-
-                TryTakeDefenseDamage();
+                int regenerationHealth = fighter.DamageWarrior / halfRegenerationHealth;
+                Console.WriteLine(Name + " получает - " + fighter.DamageWarrior + " урона и восстанавливает " + regenerationHealth + " здоровья.");
+                Health += regenerationHealth;
             }
-        }
-
-        private bool TryTakeDefenseDamage()
-        {
-            if (_armorProfessionalPuncher >= 0)
-            {
-                return true;
-            }
-            else
-            {
-                Health += _armorProfessionalPuncher;
-                _armorProfessionalPuncher = 0;
-            }
-
-            return false;
         }
     }
 
