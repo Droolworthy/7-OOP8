@@ -142,7 +142,7 @@ namespace OOP8
         }
     }
 
-    class Fighter
+    abstract class Fighter
     {
         protected string Name;
         protected int Health;
@@ -189,10 +189,7 @@ namespace OOP8
             Health -= damage;
         }
 
-        public virtual void Attack(Fighter fighter)
-        {
-            fighter.TakeDamage(Damage);
-        }
+        public abstract void Attack(Fighter fighter);
     }
 
     class Boxer : Fighter
